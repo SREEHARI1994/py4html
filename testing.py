@@ -1,6 +1,6 @@
 from py4html import *
 
-start("testing.html")
+start()
 heading(1,"just trying")
 paragraph("different implementations")
 division_begins()
