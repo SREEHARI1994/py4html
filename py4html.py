@@ -19,6 +19,11 @@ def line_break():
     
     f.write("<br>")
     
+def division_begins():
+    f.write("<div>")
+
+def division_ends():
+    f.write("</div>")
 
     
 class Form():
