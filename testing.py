@@ -1,10 +1,16 @@
 from py4html import *
 
 start()
-heading(1,"just trying")
+heading(1,"This is the begining of Page")
+line_break()
+heading(6,"just trying")
 paragraph("different implementations")
+line_break()
 division_begins()
 heading(2,"this comes inside the division")
 heading(3,"this too comes inside the division")
+add_link("click this for info about links","https://www.w3schools.com/html/html_links.asp")
+line_break()
+add_link("click this for formatting information","https://www.w3schools.com/html/html_formatting.asp")
 division_ends()
 end()

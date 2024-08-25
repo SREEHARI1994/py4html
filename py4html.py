@@ -16,7 +16,6 @@ def paragraph(text):
     f.write(f"<p>{text}</p>\n")
 
 def line_break():
-    
     f.write("<br>")
     
 def division_begins():
@@ -25,6 +24,8 @@ def division_begins():
 def division_ends():
     f.write("</div>")
 
+def add_link(link_text,url):
+    f.write(f'<a href="{url}">{link_text}</a>\n')
     
 class Form():
     def __init__(self):
