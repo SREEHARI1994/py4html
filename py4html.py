@@ -12,17 +12,35 @@ def start():
 def heading(num,text):
     f.write(f"<h{num}>{text}</h{num}>\n")
 
+def biggest_heading(text):
+    f.write(f"<h1>{text}</h1>\n")
+
+def bigger_heading(text):
+    f.write(f"<h2>{text}</h2>\n")
+
+def big_heading(text):
+    f.write(f"<h3>{text}</h3>\n")
+
+def small_heading(text):
+    f.write(f"<h4>{text}</h2>\n")
+
+def smaller_heading(text):
+    f.write(f"<h5>{text}</h5>\n")
+
+def smallest_heading(text):
+    f.write(f"<h6>{text}</h6>\n")
+
 def paragraph(text):
     f.write(f"<p>{text}</p>\n")
 
 def line_break():
-    f.write("<br>")
+    f.write("<br>\n")
     
 def division_begins():
     f.write("<div>")
 
 def division_ends():
-    f.write("</div>")
+    f.write("</div>\n")
 
 def add_link(link_text,url):
     f.write(f'<a href="{url}">{link_text}</a>\n')
