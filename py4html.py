@@ -9,7 +9,24 @@ end_string = """</body>
 def start():
     f.write(start_string)
 
-def heading(num,text):
+def transform_text(text,text_type):
+    match text_type:
+        case "bold":text="<b>"+text+"</b>"
+        case "strong":text="<strong>"+text+"</strong>"
+        case "italics":text="<i>"+text+"</i>"
+        case "emphasized":text="<em>"+text+"</em"
+        case "mark":text="<mark>"+text+"</mark>"
+        case "small":text="<small>"+text+"</small>"
+        case "deleted":text="<del>"+text+"</del>"
+        case "inserted":text="<ins>"+text+"</ins>"
+        case "sub":text="<sub>"+text+"</sub>"
+        case "sup":text="<sup>"+text+"</sup>"
+    return text
+
+
+def heading(text,num=1,text_type=""):
+    if text_type:
+        text=transform_text(text,text_type)
     f.write(f"<h{num}>{text}</h{num}>\n")
 
 def biggest_heading(text):
