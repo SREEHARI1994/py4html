@@ -1,3 +1,4 @@
+import atexit
 f=open("index.html",'w')
 start_string = """<!DOCTYPE html>
 <html>
@@ -6,8 +7,8 @@ start_string = """<!DOCTYPE html>
 end_string = """</body>
 </html>
 """  
-def start():
-    f.write(start_string)
+
+f.write(start_string)
 
 def transform_text(text,text_type):
     match text_type:
@@ -53,14 +54,45 @@ def paragraph(text):
 def line_break():
     f.write("<br>\n")
     
-def division_begins():
-    f.write("<div>")
+def division_begins(class_name="",style={}):
+    div_string=""
+    if class_name:
+        div_string=f'<div class ="{class_name}"'
+    else:
+        div_string="<div"
+    if style:
+        div_string=div_string + '  style="'
+        style_string=""
+        for item in style:
+            style_string=style_string + f"{item}:{style[item]}; "
+        div_string=div_string + style_string + '">'
+    f.write(div_string + "\n")
+
 
 def division_ends():
     f.write("</div>\n")
 
 def add_link(link_text,url):
     f.write(f'<a href="{url}">{link_text}</a>\n')
+
+def unordered_list(*items):
+    f.write('<ul>\n')
+    for item in items:
+        f.write(f"<li>{item}</li>\n")
+    f.write('</ul>\n')
+
+def ordered_list(*items):
+    f.write('<ol>\n')
+    for item in items:
+        f.write(f"<li>{item}</li>\n")
+    f.write('</ol>\n')
+
+def description_list(**items):
+    f.write('<dl>\n')
+    for item in items:
+        f.write(f"<dt>{item}</dt>\n")
+        f.write(f"<dd>{items[item]}</dd>\n")
+    f.write('</dl>\n')  
     
 class Form():
     def __init__(self):
@@ -77,7 +109,9 @@ class Form():
     def close():
         f.write("</form>\n")        
     
-    
+
+
+@atexit.register
 def end():
-    f.write(end_string)
-    f.close()
+        f.write(end_string)
+        f.close()

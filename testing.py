@@ -1,6 +1,5 @@
 from py4html import *
 
-start()
 heading("This is the begining of Page",1)
 heading("without specifying heading number")
 line_break()
@@ -26,4 +25,20 @@ heading("sruthi",4,"bold")
 heading("sruthi",3,"italics")
 heading("sreehari",1,"italics")
 heading("sreehari and his sruthi",1,"sub")
-end()
+
+division_begins("first",{"width":"33%","float":"left","background-color":"#FFF4A3"})
+heading("Kerala",2)
+paragraph("kerala is in India")
+paragraph("kerala lies in south")
+division_ends()
+
+division_begins("second",{"width":"33%","float":"left","background-color":"#FFC0C7"})
+heading("Northern Districts of Kerala",1)
+ordered_list("kannur","kozhikode","wayanad")
+division_ends()
+
+division_begins("third",{"width":"33%","float":"left","background-color":"#D9EEE1"})
+heading("Some states in India")
+unordered_list("Gujarath","Rajasthan","Haryana")
+division_ends()
+
