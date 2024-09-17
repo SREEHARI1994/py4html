@@ -59,6 +59,7 @@ heading("smallest heading with style and text formatting",6,"italics",style={"co
 heading("smallest heading with style and text formattting multiple styles center align",6,
         style={"text-align":"center","color":"blue"})
 line_break()
+#Now working with Tables
 
 country_table=[ ("heading1","heading2","heading3"),
         ["first","second","third"],
@@ -74,7 +75,6 @@ country_table_without_headings=[ ["first","second","third"],
 
                                  ["New Delhi","Tokyo","Berlin"]]
 
-
 #nested table with a division for a table cell
 division_in_cell=division_begins("inside_cell",{"background-color":"red","width":"100px","height":"50px"},"sreehari loves python",type="nested")
 
@@ -88,7 +88,33 @@ table(country_table)
 line_break()
 table(country_table_without_headings)
 
-line_break() 
-line_break()
 line_break()
 table(nested_table)
+
+line_break()
+#setting width of entire table first and then changing widths of columns and rows
+biggest_heading("Setting the first column to be 70% of the table width")
+
+new_table=[("name","age","place"),
+           ["sreehari",{"width":"70%"},"30","Kannur"],
+           ["Rahul","22","Vadakara"],
+           ["sruthi","28","Alapuzha"]]
+
+table(new_table,{"width":"100%"})
+line_break()
+
+bigger_heading("Same table with Border")
+
+common_table_style={"border":"1px solid black","border-collapse":"collapse"}
+table(new_table,common_table_style|{"width":"100%"})
+#applying border to inner columns and rows too
+line_break()
+big_heading("Applying border to column and row")
+new_table=[("name","age","place"),
+           ["sreehari",{"width":"70%"},"30","Kannur"],
+           ["Rahul","22","Vadakara"],
+           ["sruthi",{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"]]
+#table(new_table,common_table_style|{"width":"100%"})
+table(new_table)
+           
+           
