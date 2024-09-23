@@ -41,7 +41,7 @@ def edit_file_4style(style_dict):
     # Get the file content from the queue
     lines_from_queue = q.get()
     lines=[]
-    print("\nFile content read by the separate thread:")
+    #print("\nFile content read by the separate thread:")
     for line in lines_from_queue:
         lines.append(line)
     # Define the word to search for and the text to insert
@@ -56,7 +56,6 @@ def edit_file_4style(style_dict):
 
     # Flag to indicate whether we've found the target line
     found = False
-    print(lines)
     # Loop through the lines
     for i, line in enumerate(lines):
         if line.startswith(search_word):
@@ -264,7 +263,11 @@ def table(items_list,style={}):
                     elements_in_one_row.append("<td>\n")
                     continue
                 elements_in_one_row[n-1]=stylizer("td",element)+"\n"
-                
+            
+            elif type(element) is tuple:
+                elements_in_one_row.append("<th>\n")
+                content_in_one_row.append(element[0])
+        
             else:
                 elements_in_one_row.append("<td>\n")
                 content_in_one_row.append(element)
@@ -277,7 +280,10 @@ def table(items_list,style={}):
         for tag,content in zip(element_list2d[ln],content_list[ln]):
             f.write(tag)
             f.write(content+"\n")
-            f.write('</td>\n')
+            if "td" in tag:
+                f.write('</td>\n')
+            else:
+                f.write('</th>')
         f.write("</tr>\n")
     f.write("</table>\n")
 

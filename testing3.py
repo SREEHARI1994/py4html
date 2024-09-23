@@ -116,5 +116,14 @@ new_table=[("name","age","place"),
            ["sruthi",{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"]]
 #table(new_table,common_table_style|{"width":"100%"})
 table(new_table)
+
+#table with first rows as headings
+big_heading("Table with first row entry as headings")
+line_break()
+
+new_table= [("name","age","place"),
+           [("sreehari",),"30","Kannur"],
+           [("Rahul",),"22","Vadakara"],
+           [("sruthi",),{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"]]         
            
-           
+table(new_table)
