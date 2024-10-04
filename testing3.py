@@ -124,6 +124,19 @@ line_break()
 new_table= [("name","age","place"),
            [("sreehari",),"30","Kannur"],
            [("Rahul",),"22","Vadakara"],
-           [("sruthi",),{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"]]         
-           
+           [("sruthi",),{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"]]  
+
 table(new_table)
+
+big_heading("Table with spanning rows columns")
+line_break()
+
+newest_table=[("name","age","place"),["sreehari",{"rowspan":"2"},"30","Kannur"],
+              ["22","VAdakara"],
+              ["nandan","33","talassery"],
+              ["Vasudevan","26","Trivandrum"],
+              [("sruthi",),{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"],
+              ["Vimal","31","Aluva"],
+              ["sanjay","41","Calicut"]]
+
+table(newest_table)

@@ -246,6 +246,9 @@ def table(items_list,style={}):
             n=n-1
             continue
         if type(row) is dict:
+            if "rowspan" in row:
+                row_list[n-1]=f"<tr rowspan={row["rowspan"]}>"
+                del row["rowspan"]
             row_list[n-1]=stylizer("tr",row)+"\n"
         else:
             row_list.append("<tr>\n")
@@ -262,7 +265,27 @@ def table(items_list,style={}):
                     f.seek(file_pointer_position)
                     elements_in_one_row.append("<td>\n")
                     continue
-                elements_in_one_row[n-1]=stylizer("td",element)+"\n"
+                if "colspan" in element:
+                    span_value=element["colspan"]
+                    del element["colspan"]
+                    if element:
+                        styled_string=stylizer("td",element)+"\n"
+                        ind=styled_string.index(" ")
+                        final_string=styled_string[:ind]+f"colspan={span_value} " + styled_string[ind:]
+                        elements_in_one_row[n-1]=final_string
+                    else:
+                        elements_in_one_row[n-1]=f'<td colspan="{span_value}" >'
+                    
+                if "rowspan" in element:
+                    span_value=element["rowspan"]
+                    del element["rowspan"]
+                    if element:
+                        styled_string=stylizer("td",element)+"\n"
+                        ind=styled_string.index(" ")
+                        final_string=styled_string[:ind]+f"rowspan={span_value} " + styled_string[ind:]
+                        elements_in_one_row[n-1]=final_string
+                    else:
+                        elements_in_one_row[n-1]=f'<td rowspan="{span_value}" >'
             
             elif type(element) is tuple:
                 elements_in_one_row.append("<th>\n")
