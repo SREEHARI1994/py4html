@@ -1,7 +1,7 @@
-from py4html import *
+from py4htmlpc import *
 
 # In this file I am simple testing out all available feautures
-
+title("sreeharis acrobatics")
 heading("Biggest heading unstyled unformatted")
 heading("biggest heading unstyled unformatted with heading number given",1)
 heading("Biggest heading with text formatting",1,"bold")
@@ -110,6 +110,7 @@ table(new_table,common_table_style|{"width":"100%"})
 #applying border to inner columns and rows too
 line_break()
 big_heading("Applying border to column and row")
+
 new_table=[("name","age","place"),
            ["sreehari",{"width":"70%"},"30","Kannur"],
            ["Rahul","22","Vadakara"],
@@ -124,7 +125,7 @@ line_break()
 new_table= [("name","age","place"),
            [("sreehari",),"30","Kannur"],
            [("Rahul",),"22","Vadakara"],
-           [("sruthi",),{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"]]  
+           [("sruthi",),"28","Alapuzha"]]  
 
 table(new_table)
 
@@ -135,7 +136,7 @@ newest_table=[("name","age","place"),["sreehari",{"rowspan":"2"},"30","Kannur"],
               ["22","VAdakara"],
               ["nandan","33","talassery"],
               ["Vasudevan","26","Trivandrum"],
-              [("sruthi",),{"common_style":{("table","th","td"):common_table_style}},"28","Alapuzha"],
+              [("sruthi",),"28","Alapuzha"],
               ["Vimal","31","Aluva"],
               ["sanjay","41","Calicut"]]
 

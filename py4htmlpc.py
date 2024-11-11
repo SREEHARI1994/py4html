@@ -1,19 +1,26 @@
 import atexit
 import threading
 import queue
+import os
 
 file_pointer_position=0
+#title_file_pointer_position=0
 f=open("index.html",'w')
 start_string = """<!DOCTYPE html>
 <html>
+<head>
 <style>
 </style>
+</head>
 <body>
 """
-end_string = """</body>
+end_string = """
+</body>
 </html>
-"""  
+""" 
+
 f.write(start_string)
+
 file_lock=threading.Lock()
 
 def stylizer(element,style):
@@ -29,7 +36,6 @@ def read_file_again_separate_thread(q):
         with open("index.html","r") as rf:
             lines = rf.readlines()
             q.put(lines)
-    
 
 def edit_file_4style(style_dict):
     global file_pointer_position
@@ -52,7 +58,7 @@ def edit_file_4style(style_dict):
     value_dict=next(iter(style_dict.values()))
     for individual_style in value_dict:
         text_to_insert=text_to_insert+f"{individual_style}:{value_dict[individual_style]}; " + "\n"
-    text_to_insert=text_to_insert + "}"
+    text_to_insert=text_to_insert + "}\n"
 
     # Flag to indicate whether we've found the target line
     found = False
@@ -73,6 +79,49 @@ def edit_file_4style(style_dict):
                 file.flush()
                 file_pointer_position=file.tell()
             
+def edit_file_4title(title_text):
+    global file_pointer_position
+    f.flush()
+    tq=queue.Queue()
+    new_titlethread4_reading=threading.Thread(target=read_file_again_separate_thread,args=(tq,))
+    new_titlethread4_reading.start()
+    new_titlethread4_reading.join()
+    # Get the file content from the queue
+    lines_from_queue = tq.get()
+    lines=[]
+    #print("\nFile content read by the separate thread:")
+    for line in lines_from_queue:
+        lines.append(line)
+    print(lines)
+    # Define the word to search for and the text to insert
+    search_word = "<head>"
+    text_to_insert=f"<title>\n{title_text}\n</title>\n"
+
+    # Flag to indicate whether we've found the target line
+    found = False
+    # Loop through the lines
+    for i, line in enumerate(lines):
+        if line.startswith(search_word):
+            # Insert the new line after the found line
+            lines.insert(i + 1, text_to_insert)
+            found = True
+            break
+    # Only write if we found the line and modified the content
+    if found:
+        with file_lock:
+            with open("index.html", "w") as file:
+                #file.seek(file_pointer_position)
+                file.writelines(lines)
+                file.flush()
+                file_pointer_position=file.tell()
+
+def title(title_text):
+    title_thread=threading.Thread(target=edit_file_4title,args=(title_text,))
+    title_thread.start()
+    title_thread.join()
+    f.seek(file_pointer_position)
+    f.write("\n")
+
 
 def transform_text(text,text_type):
     match text_type:
@@ -325,7 +374,15 @@ class Form():
             f.write(f"<input type=\"submit\" value=\"{value}\">")
     def close():
         f.write("</form>\n")        
-    
+
+def image(source,alternate_text,style={}):
+    send_to_stylizer=f"img src={source} alt={alternate_text}"
+    if style:
+        starting=stylizer(send_to_stylizer,style)
+    else:
+        starting="<" + send_to_stylizer
+    f.write(f"{starting}>\n")
+        
 
 @atexit.register
 def end():
