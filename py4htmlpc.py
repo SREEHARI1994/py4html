@@ -4,7 +4,6 @@ import queue
 import os
 
 file_pointer_position=0
-#title_file_pointer_position=0
 f=open("index.html",'w')
 start_string = """<!DOCTYPE html>
 <html>
@@ -122,6 +121,52 @@ def title(title_text):
     f.seek(file_pointer_position)
     f.write("\n")
 
+def edit_file_4allstyles(style_dict):
+    global file_pointer_position
+    f.flush()
+    all_styles_queue=queue.Queue()
+    new_thread4_reading=threading.Thread(target=read_file_again_separate_thread,args=(all_styles_queue,))
+    new_thread4_reading.start()
+    new_thread4_reading.join()
+    # Get the file content from the queue
+    lines_from_queue = all_styles_queue.get()
+    lines=[]
+    #print("\nFile content read by the separate thread:")
+    for line in lines_from_queue:
+        lines.append(line)
+    # Define the word to search for and the text to insert
+    search_word = "<style>"
+    text_to_insert=""
+    for entry in style_dict:
+        text_to_insert=f"{entry}"+"{\n"
+        individual_style=style_dict[entry]
+        for element in individual_style:
+            text_to_insert=text_to_insert + f"{element}:{individual_style[element]};\n"
+        text_to_insert=text_to_insert+"}\n"
+    # Flag to indicate whether we've found the target line
+    found = False
+    # Loop through the lines
+    for i, line in enumerate(lines):
+        if line.startswith(search_word):
+            # Insert the new line after the found line
+            lines.insert(i + 1, text_to_insert)
+            found = True
+            break
+    # Only write if we found the line and modified the content
+    if found:
+        with file_lock:
+            with open("index.html", "w") as file:
+                #file.seek(file_pointer_position)
+                file.writelines(lines)
+                file.flush()
+                file_pointer_position=file.tell()
+
+def all_styles(style_dic):
+    allstyles_thread=threading.Thread(target=edit_file_4allstyles,args=(style_dic,))
+    allstyles_thread.start()
+    allstyles_thread.join()
+    f.seek(file_pointer_position)
+    f.write("\n")
 
 def transform_text(text,text_type):
     match text_type:
@@ -209,13 +254,20 @@ def paragraph(text,text_type="",style={}):
         starting=stylizer("p",style)
     else:
         starting="<p>"
-    f.write(f"{starting}\n{text}\n</p>\n")
+    if text.endswith("##"):
+        if text[-3]=="\\":
+            f.write(f"{starting}\n{text[:-3]+"##"}\n</p>\n")
+        else:
+            return f"{starting}\n{text[:-2]}\n</p>\n"
+
+    else:
+        f.write(f"{starting}\n{text}\n</p>\n")
 
 
 def line_break():
     f.write("<br>\n")
     
-
+#type parameter with default value of write for division is simply added for future versions which allows nesting
 def division_begins(class_name="",style={},text="",type="write"):
     div_string=""
     return_string=""
@@ -246,24 +298,76 @@ def division_ends():
     f.write("</div>\n")
 
 
-def add_link(link_text,url):
-    f.write(f'<a href="{url}">{link_text}</a>\n')
+def add_link(link_text,url,style={}):
+    starting=f'a href="{url}"'
+    if style:
+        starting=stylizer(starting,style)
+    else:
+        starting="<" + starting + ">"
+    f.write(f'{starting}{link_text}</a>\n')
+
 
 
 def unordered_list(*items):
-    f.write('<ul>\n')
-    for item in items:
-        f.write(f"<li>{item}</li>\n")
+    first="no"
+    if type(items[0]) is dict:
+        styled_stirng=stylizer("ul",items[0])
+        f.write(styled_stirng+"\n")
+        first="yes"
+    else:
+        f.write('<ul>\n')
+    if first =="yes":
+        basket=items[1:]
+    else:
+        basket=items
+    print_list=[]
+    list_count=0
+    for i,item in enumerate(basket):
+        if type(item) is dict:
+            styled_stirng=stylizer("li",item)
+            print_list[list_count-1]=f"{styled_stirng}{basket[i-1]}</li>\n"
+            
+        else:
+            print_list.append(f"<li>{item}</li>\n")
+            list_count+=1
+            
+    for line in print_list:
+        f.write(line)
     f.write('</ul>\n')
 
 def ordered_list(*items):
-    f.write('<ol>\n')
-    for item in items:
-        f.write(f"<li>{item}</li>\n")
+    first="no"
+    if type(items[0]) is dict:
+        styled_stirng=stylizer("ol",items[0])
+        f.write(styled_stirng+"\n")
+        first="yes"
+    else:
+        f.write('<ol>\n')
+    if first =="yes":
+        basket=items[1:]
+    else:
+        basket=items
+    print_list=[]
+    list_count=0
+    for i,item in enumerate(basket):
+        if type(item) is dict:
+            styled_stirng=stylizer("li",item)
+            print_list[list_count-1]=f"{styled_stirng}{basket[i-1]}</li>\n"
+            
+        else:
+            print_list.append(f"<li>{item}</li>\n")
+            list_count+=1
+            
+    for line in print_list:
+        f.write(line)
     f.write('</ol>\n')
 
-def description_list(**items):
-    f.write('<dl>\n')
+def description_list(items,style={}):
+    if style:
+        style_applied=stylizer("dl",style)
+        f.write(style_applied)
+    else:
+        f.write('<dl>\n')
     for item in items:
         f.write(f"<dt>{item}</dt>\n")
         f.write(f"<dd>{items[item]}</dd>\n")
@@ -360,19 +464,23 @@ def table(items_list,style={}):
     f.write("</table>\n")
 
 
-class Form():
+class form():
     def __init__(self):
-        f.write("<form action="">\n")
-    
-    def label(id,text):
-        f.write(f"<label for=\"{id}\">{text}</label><br>\n")
+        self.start()
+        
+    def start(self,action=" "):
+        f.write(f"<form action=\"{action}\">\n")
 
-    def input(type="",id="",name="",value=""):
+    def label(self,id,text):
+        f.write(f"<label for=\"{id}\">{text}</label>\n")
+
+    def input(self,type="",id="",name="",value=""):
         if type=="text":
-            f.write(f"<input type=\"text\" id=\"{id}\" name=\"{name}\" value=\"{value}\"><br>\n")
+            f.write(f"<input type=\"text\" id=\"{id}\" name=\"{name}\" value=\"{value}\">\n")
         if type=="submit":
-            f.write(f"<input type=\"submit\" value=\"{value}\">")
-    def close():
+            f.write(f"<input type=\"submit\" value=\"{value}\">\n")
+
+    def close(self):
         f.write("</form>\n")        
 
 def image(source,alternate_text,style={}):

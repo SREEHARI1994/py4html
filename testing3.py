@@ -59,6 +59,10 @@ heading("smallest heading with style and text formatting",6,"italics",style={"co
 heading("smallest heading with style and text formattting multiple styles center align",6,
         style={"text-align":"center","color":"blue"})
 line_break()
+
+add_link("www.facebook.com","https://www.google.com")
+add_link("www.google.com","https://www.facebook.com/", style = {"color":"red"})
+
 #Now working with Tables
 
 country_table=[ ("heading1","heading2","heading3"),
@@ -141,3 +145,26 @@ newest_table=[("name","age","place"),["sreehari",{"rowspan":"2"},"30","Kannur"],
               ["sanjay","41","Calicut"]]
 
 table(newest_table)
+
+line_break()
+
+f=form()
+f.label("name","Sreehari")
+line_break()
+line_break()
+f.input("text","one","one","Enter Sreehari\'s age")
+line_break()
+line_break()
+f.label("second_name","Sruthi")
+line_break()
+line_break()
+f.input("text","second","second","Enter Sruthi\'s age")
+line_break()
+line_break()
+f.input("submit",value="submit to database")
+f.close()
+division_begins(class_name="simply")
+biggest_heading('simply')
+division_ends()
+all_styles({"body":{"background-color":"green"}})
+all_styles({".simply":{"background-color":"red","width":"2000px","height":"700px"}})
