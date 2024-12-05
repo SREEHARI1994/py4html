@@ -2,9 +2,23 @@ import atexit
 import threading
 import queue
 import os
+import inspect
 
 file_pointer_position=0
-f=open("index.html",'w')
+html_file_name=""
+
+def create_html_file():
+    # Get the last frame in the stack, which corresponds to the importing module
+    global html_file_name
+    frame = inspect.stack()[-1]
+    importing_file_path = frame.filename  # Full path of the importing file
+    # Extract name without extension
+    importing_file_name = os.path.splitext(os.path.basename(importing_file_path))[0]  
+    html_file_name=importing_file_name+"_.html"
+
+create_html_file()  
+f=open(html_file_name,'w')
+   
 start_string = """<!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +46,7 @@ def stylizer(element,style):
 
 def read_file_again_separate_thread(q):
     with file_lock:
-        with open("index.html","r") as rf:
+        with open(html_file_name,"r") as rf:
             lines = rf.readlines()
             q.put(lines)
 
@@ -72,7 +86,7 @@ def edit_file_4style(style_dict):
     # Only write if we found the line and modified the content
     if found:
         with file_lock:
-            with open("index.html", "w") as file:
+            with open(html_file_name, "w") as file:
                 #file.seek(file_pointer_position)
                 file.writelines(lines)
                 file.flush()
@@ -91,7 +105,7 @@ def edit_file_4title(title_text):
     #print("\nFile content read by the separate thread:")
     for line in lines_from_queue:
         lines.append(line)
-    print(lines)
+
     # Define the word to search for and the text to insert
     search_word = "<head>"
     text_to_insert=f"<title>\n{title_text}\n</title>\n"
@@ -108,7 +122,7 @@ def edit_file_4title(title_text):
     # Only write if we found the line and modified the content
     if found:
         with file_lock:
-            with open("index.html", "w") as file:
+            with open(html_file_name, "w") as file:
                 #file.seek(file_pointer_position)
                 file.writelines(lines)
                 file.flush()
@@ -155,7 +169,7 @@ def edit_file_4allstyles(style_dict):
     # Only write if we found the line and modified the content
     if found:
         with file_lock:
-            with open("index.html", "w") as file:
+            with open(html_file_name, "w") as file:
                 #file.seek(file_pointer_position)
                 file.writelines(lines)
                 file.flush()
@@ -465,13 +479,33 @@ def table(items_list,style={}):
 
 
 class form():
-    def __init__(self):
-        self.start()
-        
-    def start(self,action=" "):
-        f.write(f"<form action=\"{action}\">\n")
+    '''
+    def __init__(self,**arguments):
+        sent_arguments=()
+        for argument in arguments:
+            arg_name=f"{argument}={arguments[argument]}"
+            arg_name=arg_name.strip("'")
+            sent_arguments=sent_arguments+(arg_name,)
+            print(sent_arguments)
+        self.start(*sent_arguments)
+    '''    
+    def __init__(self,action=" ",method="",style={}):
+        if action:
+            start=f"form action=\"{action}\""
+            if method:
+                 start=f"form action=\"{action}\" method='{method}'"
+        elif method:
+            start=f"form method='{method}'" #simply added to avoid error in Python eventhough 
+                                             #it should not be used
+        else:
+            start="form"
+        if style:
+            styled_string=stylizer(start,style)
+            f.write(styled_string+'\n')
+        else:
+            f.write("<"+ start +">\n")
 
-    def label(self,id,text):
+    def label(self,text,id=""):
         f.write(f"<label for=\"{id}\">{text}</label>\n")
 
     def input(self,type="",id="",name="",value=""):
