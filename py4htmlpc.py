@@ -3,6 +3,7 @@ import threading
 import queue
 import os
 import inspect
+import re
 
 file_pointer_position=0
 html_file_name=""
@@ -42,6 +43,36 @@ def stylizer(element,style):
         styled_string=styled_string + f"{item}:{style[item]}; "
     styled_string=styled_string + '">'
     return styled_string
+
+
+def style_copier(css_code_string):
+    css_dic={}
+    inside_key=True
+    inside_value=True
+    key_start_index=0
+    while '/*' in css_code_string and '*/' in css_code_string:
+        start = css_code_string.find('/*')  # Find the start of the comment
+        end = css_code_string.find('*/', start)  # Find the end of the comment
+        if end == -1:
+            break
+        css_code_string = css_code_string[:start] + css_code_string[end + 2:]  # Remove the comment block
+    
+    for i,ch in enumerate(css_code_string):
+        if ch == ":" and inside_key==True:
+            inside_key=False
+            key=css_code_string[key_start_index:i]
+            key_end_index=i+1
+            inside_value=True
+        if ch==";" and inside_value == True:
+            value=css_code_string[key_end_index:i]
+            inside_value==False
+            inside_key=True
+            key_start_index=i+1
+            key=key.strip()
+            value=value.strip()
+            css_dic[key]=value
+           
+    return css_dic
 
 
 def read_file_again_separate_thread(q):
@@ -152,7 +183,7 @@ def edit_file_4allstyles(style_dict):
     search_word = "<style>"
     text_to_insert=""
     for entry in style_dict:
-        text_to_insert=f"{entry}"+"{\n"
+        text_to_insert=text_to_insert+f"{entry}"+"{\n"
         individual_style=style_dict[entry]
         for element in individual_style:
             text_to_insert=text_to_insert + f"{element}:{individual_style[element]};\n"
@@ -185,7 +216,7 @@ def all_styles(style_dic):
 def transform_text(text,text_type):
     match text_type:
         case "bold":text="<b>"+text+"</b>"
-        case "strong":text="<strong>"+text+"</strong>"
+        case "important":text="<strong>"+text+"</strong>"
         case "italics":text="<i>"+text+"</i>"
         case "emphasized":text="<em>"+text+"</em"
         case "mark":text="<mark>"+text+"</mark>"
@@ -489,14 +520,24 @@ class form():
             print(sent_arguments)
         self.start(*sent_arguments)
     '''    
-    def __init__(self,action=" ",method="",style={}):
+    def __init__(self,action=" ",method="",style={},attr_list=[]):
         if action:
-            start=f"form action=\"{action}\""
+            start=f"form action=\"{action}\" "
             if method:
-                 start=f"form action=\"{action}\" method='{method}'"
+                 start=f"form action=\"{action}\" method='{method}' "
+            if attr_list:
+                attr_string=""
+                for attr in attr_list:
+                    attr_string=attr_string + f"{attr}" + " "
+                start=start+attr_string 
+            
         elif method:
-            start=f"form method='{method}'" #simply added to avoid error in Python eventhough 
-                                             #it should not be used
+            start=f"form method='{method}' " #simply added to avoid error in Python eventhough it should not be used
+        elif attr_list:
+                attr_string=""
+                for attr in attr_list:
+                    attr_string=attr_string + ' ' + f"{attr}"
+                start=start+attr_string                                  
         else:
             start="form"
         if style:
@@ -505,26 +546,247 @@ class form():
         else:
             f.write("<"+ start +">\n")
 
-    def label(self,text,id=""):
-        f.write(f"<label for=\"{id}\">{text}</label>\n")
+    def label(self,text,id="",style={},attr_list=[]):
+        start=f"label for=\"{id}\""
+        if attr_list:
+            attr_string=""
+            for attr in attr_list:
+                attr_string=attr_string + ' ' + f"{attr}"
+            start=start+attr_string  
+        if style:
+             styled_string=stylizer(start,style)
+             f.write(f"{styled_string}{text}</label>\n")
+        else:    
+            f.write(f"<label for=\"{id}\">{text}</label>\n")
 
-    def input(self,type="",id="",name="",value=""):
+    def input(self,type="",id="",name="",value="",style={},attr_list=[],radio_button_list=[],
+              radio_attribute_list=[],radio_style_list=[],label_attribute_list=[],label_style_list=[],
+              checkbox_list=[],checkbox_attribute_list=[],checkbox_style_list=[],checklabel_attribute_list=[],
+              checklabel_style_list=[]):
         if type=="text":
-            f.write(f"<input type=\"text\" id=\"{id}\" name=\"{name}\" value=\"{value}\">\n")
-        if type=="submit":
-            f.write(f"<input type=\"submit\" value=\"{value}\">\n")
+            start=f"input type=\"text\" id=\"{id}\" name=\"{name}\" value=\"{value}\""
+            if attr_list:
+                attr_string=""
+                for attr in attr_list:
+                    attr_string=attr_string + ' ' + f"{attr}"
+                start=start+attr_string
 
+            if style:
+                styled_string=stylizer(start,style)
+                f.write(f"{styled_string}\n")
+            else:    
+                f.write("<"+start+">\n")
+
+        if type=="submit":
+            start=f"input type=\"submit\" value=\"{value}\""
+            if attr_list:
+                attr_string=""
+                for attr in attr_list:
+                    attr_string=attr_string + ' ' + f"{attr}"
+                start=start+attr_string  
+            if style:
+                styled_string=stylizer(start,style)
+                f.write(f"{styled_string}\n")
+            else:    
+                f.write("<"+start+">\n")
+        
+        #To apply style to individual radio input entries and labels,use nested lists and dictionaries
+        #with attribute list and style dictionary at the exact position or number of the radio or label to be styled
+        #and empty lists and dictionaries at every other position
+        if type=="radio":
+            for id,label in enumerate(radio_button_list):
+                start=f'input type="radio" id="{label.rstrip("#")}{id}" name="{"radio"+radio_button_list[0].rstrip("#")}" value="{label.rstrip("#")}"'
+                if radio_attribute_list:
+                    radio_attr_string=""
+                    for attr in radio_attribute_list:
+                        radio_attr_string=radio_attr_string + ' ' + f"{attr}"
+                    start=start+radio_attr_string 
+                
+                if len(radio_style_list)>=1:
+                    styled_string=stylizer(start,radio_style_list[id])
+                    f.write(f"{styled_string}\n")
+                else:    
+                    f.write("<"+start+">\n")
+
+                start=f'label for="{label.rstrip("#")}{id}"'
+                if label_attribute_list:
+                    label_attr_string=""
+                    for attr in label_attribute_list:
+                        label_attr_string=label_attr_string + ' ' + f"{attr}"
+                    start=start+label_attr_string  
+                if len(label_style_list)>=1:
+                    styled_string=stylizer(start,label_style_list[id])
+                    # use ## to add a single line break after a label
+                    if label.endswith("##"):
+                        match=re.search('#*$',label)
+                        total=len(match.group(0))
+                        count=total//2
+                        f.write(f"{styled_string}{label[:(-2*count)]}</label>"+"<br>"*count+"\n")
+                    else:
+                        f.write(f"{styled_string}{label}</label>\n")
+                else:
+                    if label.endswith("##"):
+                        match=re.search('#*$',label)
+                        total=len(match.group(0))
+                        count=total//2
+                        f.write("<" + start +f">{label[:(-2*count)]}</label>"+"<br>"*count+"\n")
+                    else:
+                        f.write("<" + start +f">{label}</label>\n")
+
+        if type=="checkbox":
+            for id,label in enumerate(checkbox_list):
+                start=f'input type="checkbox" id="{label.rstrip("#")}{id}" name="{"check"+checkbox_list[0].rstrip("#")}" value="{label.rstrip("#")}"'
+                if checkbox_attribute_list:
+                    checkbox_attr_string=""
+                    for attr in checkbox_attribute_list:
+                        checkbox_attr_string=checkbox_attr_string + ' ' + f"{attr}"
+                    start=start+checkbox_attr_string 
+                
+                if len(checkbox_style_list)>=1:
+                    styled_string=stylizer(start,checkbox_style_list[id])
+                    f.write(f"{styled_string}\n")
+                else:    
+                    f.write("<"+start+">\n")
+
+                start=f'label for="{label.rstrip("#")}{id}"'
+                if checklabel_attribute_list:
+                    label_attr_string=""
+                    for attr in label_attribute_list:
+                        label_attr_string=label_attr_string + ' ' + f"{attr}"
+                    start=start+label_attr_string  
+                if len(checklabel_style_list)>=1:
+                    styled_string=stylizer(start,label_style_list[id])
+                    # use ## to add a single line break after a label
+                    if label.endswith("##"):
+                        match=re.search('#*$',label)
+                        total=len(match.group(0))
+                        count=total//2
+                        f.write(f"{styled_string}{label[:(-2*count)]}</label>"+"<br>"*count+"\n")
+                    else:
+                        f.write(f"{styled_string}{label}</label>\n")
+                else:
+                    if label.endswith("##"):
+                        match=re.search('#*$',label)
+                        total=len(match.group(0))
+                        count=total//2
+                        f.write("<" + start +f">{label[:(-2*count)]}</label>"+"<br>"*count+"\n")
+                    else:
+                        f.write("<" + start +f">{label}</label>\n")
+        
+        else:
+            start=f"input type=\"{type}\" value=\"{value}\""
+            if attr_list:
+                attr_string=""
+                for attr in attr_list:
+                    attr_string=attr_string + ' ' + f"{attr}"
+                start=start+attr_string  
+            if style:
+                styled_string=stylizer(start,style)
+                f.write(f"{styled_string}\n")
+            else:    
+                f.write("<"+start+">\n")
+
+    def fieldset(self,legend="",style={},attr_list=[],radio_button_list=[],
+              radio_attribute_list=[],radio_style_list=[],label_attribute_list=[],label_style_list=[],
+              checkbox_list=[],checkbox_attribute_list=[],checkbox_style_list=[],checklabel_attribute_list=[],
+              checklabel_style_list=[]):
+        
+        start="fieldset"
+        if attr_list:
+            attr_string=""
+            for attr in attr_list:
+                attr_string=attr_string + ' ' + f"{attr}"
+            start=start+attr_string  
+        if style:
+            styled_string=stylizer(start,style)
+            f.write(f"{styled_string}\n")
+        else:    
+            f.write("<"+start+">\n")
+        
+        if legend:
+             f.write(f"<legend>{legend}</legend>\n")
+        
+        if radio_button_list:
+            for id,label in enumerate(radio_button_list):
+                    start=f'input type="radio" id="{label.rstrip("#")}{id}" name="{"radio"+radio_button_list[0].rstrip("#")}" value="{label.rstrip("#")}"'
+                    if radio_attribute_list:
+                        radio_attr_string=""
+                        for attr in radio_attribute_list:
+                            radio_attr_string=radio_attr_string + ' ' + f"{attr}"
+                        start=start+radio_attr_string 
+                    
+                    if len(radio_style_list)>=1:
+                        styled_string=stylizer(start,radio_style_list[id])
+                        f.write(f"{styled_string}\n")
+                    else:    
+                        f.write("<"+start+">\n")
+
+                    start=f'label for="{label.rstrip("#")}{id}"'
+                    if label_attribute_list:
+                        label_attr_string=""
+                        for attr in label_attribute_list:
+                            label_attr_string=label_attr_string + ' ' + f"{attr}"
+                        start=start+label_attr_string  
+                    if len(label_style_list)>=1:
+                        styled_string=stylizer(start,label_style_list[id])
+                        # use ## to add a single line break after a label
+                        if label.endswith("##"):
+                            match=re.search('#*$',label)
+                            total=len(match.group(0))
+                            count=total//2
+                            f.write(f"{styled_string}{label[:(-2*count)]}</label>"+"<br>"*count+"\n")
+                        else:
+                            f.write(f"{styled_string}{label}</label>\n")
+                    else:
+                        if label.endswith("##"):
+                            match=re.search('#*$',label)
+                            total=len(match.group(0))
+                            count=total//2
+                            f.write("<" + start +f">{label[:(-2*count)]}</label>"+"<br>"*count+"\n")
+                        else:
+                            f.write("<" + start +f">{label}</label>\n")
+        elif checkbox_list:
+            self.input(type="checkbox",checkbox_list=checkbox_list,checkbox_attribute_list=checkbox_attribute_list,
+                       checkbox_style_list=checkbox_style_list,checklabel_attribute_list=checklabel_attribute_list,
+              checklabel_style_list=checklabel_style_list)
+
+        f.write("</fieldset>\n")
+                
     def close(self):
         f.write("</form>\n")        
 
-def image(source,alternate_text,style={}):
+
+def image(source,alternate_text,style={},attr_list=[]):
     send_to_stylizer=f"img src={source} alt={alternate_text}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        send_to_stylizer=send_to_stylizer+attr_string  
     if style:
         starting=stylizer(send_to_stylizer,style)
     else:
         starting="<" + send_to_stylizer
     f.write(f"{starting}>\n")
-        
+
+
+def video(source={},style={},attr_list=[],no_video_text=""):
+    start="video"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
+    if style:
+        styled_string=stylizer(start,style)
+        f.write(f"{styled_string}\n")
+    else:    
+        f.write("<"+start+">\n")
+    for video in source:
+        f.write(f"<source src=\"{video}\" type=\"{source[video]}\">\n")
+    f.write(no_video_text+"\n")
+    f.write("</video>")
+
 
 @atexit.register
 def end():
