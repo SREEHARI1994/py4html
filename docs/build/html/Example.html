@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Quick Start:Usage example- Recreating a popular website &#8212; py4html 0.0.4 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=8c5712d9"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Instructions:Must Read" href="UsageInstructions.html" />
+    <link rel="prev" title="Some common questions" href="starting.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="quick-start-usage-example-recreating-a-popular-website">
+<h1>Quick Start:Usage example- Recreating a popular website<a class="headerlink" href="#quick-start-usage-example-recreating-a-popular-website" title="Link to this heading">¶</a></h1>
+<p>Let us try to understand how to use this library for web development
+by creating the login page of Facebook. (It is to be noted that we are not going to create the exact
+login page of Facebook as I am not sure if we are legally allowed to do so.Instead to be on the safer side,
+we are only going to create a page that will only look very similar at first glance to the official
+Facebook’s page, or in other words just a duplicate page)</p>
+<p>This example explains how to go on with using this libary to first plan and then develop a site.
+With that regards, I am going to first and foremost, vist the officail Facebbok login page as on December 4th 2024
+to get an idea of what I am developing.</p>
+<p>I see that it is a very simple site with ‘facebook’ written in dark bluish color towards the center and
+just below that, there is a certain text. So let’s first create that. I have decided to use <em>bigger_heading</em>
+function for the “facebook” test and <em>paragraph</em> function for the bottom text.I will also apply color by
+passing the style dictionary as arguments to these functions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">py4html</span> <span class="kn">import</span> <span class="o">*</span> <span class="c1">#imports everything so that you can directly call functions by their names</span>
+<span class="n">bigger_heading</span><span class="p">(</span><span class="s2">&quot;facebook&quot;</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="s2">&quot;align&quot;</span><span class="p">:</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">paragraph</span><span class="p">(</span><span class="s1">&#39;Facebook helps you connect and share with the people in your life.&#39;</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;align&quot;</span><span class="p">:</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is the equivalent html code generated in index.html file for the above Python code</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h2  style=&quot;color:blue; align:center; &quot;&gt;
+facebook
+&lt;/h2&gt;
+&lt;p  style=&quot;align:center; &quot;&gt;
+Facebook helps you connect and share with the people in your life.
+&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+</div>
+<p>If you have tried this out, you will see that, this didn’t work. The font type and color are wrong, but
+more importantly, both the tests are appearing towards the top left instead of at center.So maybe, we cannot
+align heading and paragraph directly to center and instead have to
+put it inside a division and then align that division to center(In fact if you open the index.html file in
+Vs code or any other advanced code editor, you will see that the align word is highlighted as unknown property).
+So this is the code for that.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">py4html</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">division_begins</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;align&quot;</span><span class="p">:</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">bigger_heading</span><span class="p">(</span><span class="s2">&quot;facebook&quot;</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">paragraph</span><span class="p">(</span><span class="s1">&#39;Facebook helps you connect and share with the people in your life.&#39;</span><span class="p">)</span>
+<span class="n">division_ends</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>But upon running this, you will see that it still doesn’t work and in fact it will be shown by Vs code in
+the index.html file that there is no align property for division also. Now you have to get an undersatnding
+of how to center a division by doing a google search and refering the relevant websites.I have found this website
+to be useful for some cases of applying css and this page linked <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Center_an_element">here</a> offers a relatively clear explanation
+of how to center something.So basically you need to create an outer division which serves like a container to the
+items inside it.Then to center the inner division inside it, that has our heading and paragraph text,we need to
+first turn the outer container division into a flex container by setting its display property to flex.Then we
+also need to set align-items property to center for vertical centering (on the block axis) and justify-content
+property to center for horizontal centering (on the inline axis).All the property changes are for the outer
+container division only.</p>
+<p>But upon running this, you will again see css living up to its reputation of not doing what it is supposed to
+do by not centering the inner division on both axis correctly.The reason this happens is because you have not
+specified the size for the two divisions in the form of width and height and hence css will assume the outer
+container divsion to be only as long as the inner division and thereby resulting in only horizontal centering.
+So just specify a width of 1000px and height 800px for the outer container and maybe 500px width and height
+for inner division.By this time, you would have also realised that the official facebook sites ‘facebook’ text
+is off bigger size than that produced by bigger_heading() function, so you should use biggest_heading() to make
+it more similar.But even then, you will notice the size difference for both heading and the paragraph test
+below from theones on official site and to overcome that you need to change the font-size property for
+both texts.And to get the correct spacing between the facebook text and the description text below,
+you need to adjust the margin properties for both the texts. For this you need to get an undersatnding
+of how padding,margin and border properties work in css.If you can’t understand it properly by refering the
+image given below, then you can read more <a class="reference external" href="https://www.w3schools.com/css/css_boxmodel.asp">here</a> basically
+the padding properties for an element like divsion are for deciding the spacing between objects inside that
+division and margin properties are for for deciding the spacing between this particular division and its
+enclosing outer division or any other container which can be the entire web page area itself.</p>
+<img alt="_images/boxmodel1.png" src="_images/boxmodel1.png" />
+<p>FInally the complete code for the two texts looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">py4htmlpc</span> <span class="kn">import</span> <span class="o">*</span> <span class="c1">#imports everything so that you can directly call functions by their names</span>
+
+<span class="n">division_begins</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;display&quot;</span><span class="p">:</span><span class="s2">&quot;flex&quot;</span><span class="p">,</span><span class="s2">&quot;align-items&quot;</span><span class="p">:</span><span class="s2">&quot;center&quot;</span><span class="p">,</span><span class="s2">&quot;justify-content&quot;</span><span class="p">:</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;1000px&quot;</span><span class="p">,</span><span class="s2">&quot;height&quot;</span><span class="p">:</span><span class="s2">&quot;800px&quot;</span><span class="p">})</span>
+<span class="n">division_begins</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;500px&quot;</span><span class="p">,</span><span class="s2">&quot;height&quot;</span><span class="p">:</span><span class="s2">&quot;500px&quot;</span><span class="p">})</span>
+<span class="n">biggest_heading</span><span class="p">(</span><span class="s2">&quot;facebook&quot;</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span><span class="s2">&quot;font-size&quot;</span><span class="p">:</span><span class="s2">&quot;80px&quot;</span><span class="p">,</span><span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;5px&quot;</span><span class="p">})</span>
+<span class="n">paragraph</span><span class="p">(</span><span class="s1">&#39;Facebook helps you connect and share with the people in your life.&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;font-size&quot;</span><span class="p">:</span><span class="s2">&quot;30px&quot;</span><span class="p">,</span><span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;5px&quot;</span><span class="p">})</span>
+<span class="n">division_ends</span><span class="p">()</span>
+<span class="n">division_ends</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And this is the generated equivalent html code</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div  style=&quot;display:flex; align-items:center; justify-content:center; width:1000px; height:800px; &quot;&gt;
+&lt;div  style=&quot;width:500px; height:500px; &quot;&gt;
+&lt;h1  style=&quot;color:blue; font-size:80px; margin-bottom:5px; &quot;&gt;
+facebook
+&lt;/h1&gt;
+&lt;p  style=&quot;font-size:30px; margin-top:5px; &quot;&gt;
+Facebook helps you connect and share with the people in your life.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py4html</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Table of Content</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to Install py4html</a></li>
+<li class="toctree-l1"><a class="reference internal" href="starting.html">Some common questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start:Usage example- Recreating a popular website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageInstructions.html">Instructions:Must Read</a></li>
+<li class="toctree-l1"><a class="reference internal" href="headings.html">Headings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lists.html">Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tables.html">Tables</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="starting.html" title="previous chapter">Some common questions</a></li>
+      <li>Next: <a href="UsageInstructions.html" title="next chapter">Instructions:Must Read</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, sree.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/Example.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
