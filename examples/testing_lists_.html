@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+</style>
+</head>
+<body>
+<h1  style="color:maroon; ">
+creating simple lists of 3 types
+</h1>
+<ul>
+<li>sree</li>
+<li>sruthi</li>
+<li>Harry</li>
+</ul>
+<ol>
+<li>potter</li>
+<li>ron</li>
+<li>hermione</li>
+</ol>
+<dl>
+<dt>Harry</dt>
+<dd>hero</dd>
+<dt>ron</dt>
+<dd>harry's friend</dd>
+<dt>hermione</dt>
+<dd>harry and ron's friend</dd>
+</dl>
+<br>
+<h2  style="color:maroon; ">
+common style to all list elements
+</h2>
+<ul  style="color:red; ">
+<li>gabriel</li>
+<li>garcia</li>
+<li>marquez</li>
+</ul>
+<br>
+<ol  style="color:red; ">
+<li>gabriel</li>
+<li>garcia</li>
+<li>marquez</li>
+</ol>
+<br>
+<h2  style="color:maroon; ">
+Indiviaul colors of red, blue, green for the 3 list elements
+</h2>
+<ul>
+<li  style="color:red; ">gabriel</li>
+<li  style="color:blue; ">garcia</li>
+<li  style="color:green; ">marquez</li>
+</ul>
+<br>
+<ol>
+<li  style="color:red; ">gabriel</li>
+<li  style="color:blue; ">garcia</li>
+<li  style="color:green; ">marquez</li>
+</ol>
+<br>
+<h2  style="color:maroon; ">
+overriding common color with individual colors
+</h2>
+<h3  style="color:maroon; ">
+common red is overrided with green for gabriel and blue for garcia
+</h3>
+<ul  style="color:red; ">
+<li  style="color:green; ">gabriel</li>
+<li  style="color:blue; ">garcia</li>
+<li>marquez</li>
+</ul>
+<h3  style="color:maroon; ">
+common red is overrided with blue for garcia and green for marquez
+</h3>
+<ol  style="color:red; ">
+<li>gabriel</li>
+<li  style="color:blue; ">garcia</li>
+<li  style="color:green; ">marquez</li>
+</ol>
+<h3  style="color:red; ">
+Applying common style of color green to all entries in description list
+</h3>
+<dl  style="color:green; "><dt>harry</dt>
+<dd>hero</dd>
+<dt>ron</dt>
+<dd>harry's friend</dd>
+<dt>hermione</dt>
+<dd>harry and ron's friend</dd>
+</dl>
+<br>
+<h3  style="color:red; ">
+Nesting paragraph as a list entry
+</h3>
+<h4  style="color:red; ">
+A simple normal paragraph
+</h4>
+<p  style="color:violet; ">
+The paragraph function when called with a string that ends with ## returns the string surrounded by opening
+and closing p tags including the style applied. These can be then inserted as such into the list by passing
+this returned string to the list functions
+</p>
+<h4  style="color:red; ">
+Now lets nest this paragraph inside the list
+</h4>
+<ol  style="color:red; ">
+<li>first</li>
+<li><p  style="color:violet; ">
+The paragraph function when called with a string that ends with ## returns the string surrounded by opening
+and closing p tags including the style applied. These can be then inserted as such into the list by passing
+this returned string to the list functions
+</p>
+</li>
+<li>third</li>
+</ol>
+<h1 id="one"  style="color:red; ">
+Testing attribute list feauture for ordered lists
+</h1>
+<ol id="list1" class="listclass">
+<li>Gandalf</li>
+<li>Frodo</li>
+<li>Bilbo</li>
+</ol>
+<h2 id="heading2"  style="color:orange; ">
+Apllying style to list entries and adding attributes
+</h2>
+<ol id="listtwo" class="listclass2"  style="color:blue; ">
+<li  style="color:red; ">Gandalf</li>
+<li>Frodo</li>
+<li  style="color:green; ">Bilbo</li>
+</ol>
+
+</body>
+</html>

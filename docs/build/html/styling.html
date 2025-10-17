@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Applying style or CSS &#8212; py4html 0.0.4 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=8c5712d9"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="applying-style-or-css">
+<h1>Applying style or CSS<a class="headerlink" href="#applying-style-or-css" title="Link to this heading">¶</a></h1>
+<p>CSS gives beauty to web pages. Normally you apply styles or css to HTML files so as to change their appearnce
+and make it appear beautiful in three different ways, the first is by adding a style attribute that contains
+key-value pairs of property and its value for that particular element or tag, or we can put the collection
+of style information for various elements together under the &lt;style&gt; tag under head at the top of the html document
+or the option is to put all the css code is put in a separate file whose name ends with .css and and a link
+to it is added to the html file. In py4html we are not going for this third option of a separate css file. Instead
+you can define the style information for each tag/element, as and when they are created by adding a style parameter
+in the form of a dictionary with the key-value pairs being the properties and its values for that particular tag.
+Or you can call the all_styles() function at any point in the python file to add style information to the &lt;style&gt;
+tag under head. Read on to find out how this way of adding css works. As a suggestion, if you never pass style
+parameter while calling any py4html tag creation functions and instead define all the style information for all
+the tags together at the top of the page, then once py4html generates the html file, you only need to copy
+everything between that opening and closing style tags into a new .css file to get the external syle sheet for
+your webpage.</p>
+<p>Elements with a particular id can be styled by adding # to the begining of id text and class names can be styled
+by starting the class names with dot “.” The difference between class and id is that id is unique or in other
+words there will only be a single element with a particular id in a single html page.It is also possible to
+combine classes by separating them with spaces for a particular element. For eg if a paragraph tag is defined as
+&lt;p class=”first second”&gt;, then the style information of both first and second class will be applied to the tag.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py4html</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Table of Content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to Install py4html</a></li>
+<li class="toctree-l1"><a class="reference internal" href="starting.html">Some common questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example.html">Quick Start:Usage example- Recreating a popular website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageInstructions.html">Instructions:Must Read</a></li>
+<li class="toctree-l1"><a class="reference internal" href="headings.html">Headings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lists.html">Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tables.html">Tables</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, sree.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/styling.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

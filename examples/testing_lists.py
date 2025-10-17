@@ -49,3 +49,8 @@ small_heading("Now lets nest this paragraph inside the list",style=heading_style
 new_para_string=para_string+"##"
 retuned_para_string=paragraph(new_para_string,style={"color":"violet"})
 ordered_list({"color":"red"},"first",retuned_para_string,"third")
+biggest_heading("Testing attribute list feauture for ordered lists",style={"color":"red"},attr_list=['id="one"'])
+ordered_list("Gandalf","Frodo","Bilbo",attr_list=['id="list1"','class="listclass"'])
+bigger_heading("Apllying style to list entries and adding attributes",style={"color":"orange"},attr_list=['id="heading2"'])
+ordered_list({"color":"blue"},"Gandalf",{"color":"red"},"Frodo","Bilbo",{"color":"green"},
+             attr_list=['id="listtwo"','class="listclass2"'])

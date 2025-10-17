@@ -80,7 +80,7 @@ country_table_without_headings=[ ["first","second","third"],
                                  ["New Delhi","Tokyo","Berlin"]]
 
 #nested table with a division for a table cell
-division_in_cell=division_begins("inside_cell",{"background-color":"red","width":"100px","height":"50px"},"sreehari loves python",type="nested")
+division_in_cell=division_begins("inside_cell##",{"background-color":"red","width":"100px","height":"50px"},"sreehari loves python")
 
 nested_table=[ ["first","second","third"],
                ["India",

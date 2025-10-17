@@ -1,4 +1,4 @@
-from py4html import *
+from py4htmlpc import *
 
 heading("This will default to biggest heading")
 heading("This is second biggest heading",2)

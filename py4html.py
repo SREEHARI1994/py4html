@@ -228,77 +228,157 @@ def transform_text(text,text_type):
     return text
 
 
-def heading(text,num=1,text_type="",style={}):
+def heading(text,num=1,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start=f"h{num}"
+    if id:
+        start=start + f" {id}"
+    if class_name:
+        start=start + f" {class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer(f"h{num}",style)
+        starting=stylizer(start,style)
     else:
-        starting=f"<h{num}>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h{num}>\n")
 
-def biggest_heading(text,text_type="",style={}):
+def biggest_heading(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="h1"
+    if id:
+        start=start + f" {id}"
+    if class_name:
+        start=start + f" {class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("h1",style)
+        starting=stylizer(start,style)
     else:
-        starting="<h1>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h1>\n")
 
-def bigger_heading(text,text_type="",style={}):
+def bigger_heading(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="h2"
+    if id:
+        start=start + f" {id}"
+    if class_name:
+        start=start + f" {class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("h2",style)
+        starting=stylizer(start,style)
     else:
-        starting="<h2>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h2>\n")
 
-def big_heading(text,text_type="",style={}):
+def big_heading(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="h3"
+    if id:
+        start=start + f" {id}"
+    if class_name:
+        start=start + f" {class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("h3",style)
+        starting=stylizer(start,style)
     else:
-        starting="<h3>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h3>\n")
 
-def small_heading(text,text_type="",style={}):
+def small_heading(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="h4"
+    if id:
+        start=start + f" {id}"
+    if class_name:
+        start=start + f" {class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("h4",style)
+        starting=stylizer(start,style)
     else:
-        starting="<h4>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h4>\n")
 
-def smaller_heading(text,text_type="",style={}):
+def smaller_heading(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="h5"
+    if id:
+        start=start + f" {id}"
+    if class_name:
+        start=start + f" {class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("h5",style)
+        starting=stylizer(start,style)
     else:
-        starting="<h5>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h5>\n")
 
-def smallest_heading(text,text_type="",style={}):
+def smallest_heading(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="h6"
+    if id:
+        start=start + f" id={id}"
+    if class_name:
+        start=start + f" class={class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("h6",style)
+        starting=stylizer(start,style)
     else:
-        starting="<h6>"
+        starting="<"+start+">"
     f.write(f"{starting}\n{text}\n</h6>\n")
 
 
-def paragraph(text,text_type="",style={}):
+def paragraph(text,text_type="",style={},id="",class_name="",attr_list=[]):
     if text_type:
         text=transform_text(text,text_type)
+    start="p"
+    if id:
+        start=start + f" id={id}"
+    if class_name:
+        start=start + f" class={class_name}"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        starting=stylizer("p",style)
+        starting=stylizer(start,style)
     else:
-        starting="<p>"
+        starting="<"+start+">"
     if text.endswith("##"):
         if text[-3]=="\\":
             f.write(f"{starting}\n{text[:-3]+"##"}\n</p>\n")
@@ -311,15 +391,27 @@ def paragraph(text,text_type="",style={}):
 
 def line_break():
     f.write("<br>\n")
-    
-#type parameter with default value of write for division is simply added for future versions which allows nesting
-def division_begins(class_name="",style={},text="",type="write"):
+
+   
+def division_begins(style={},text="",id="",class_name="",attr_list=[]):
     div_string=""
+    type="write"
     return_string=""
     if class_name:
         div_string=f'<div class ="{class_name}"'
+        if class_name.endswith("##"):
+            type="return"
+    elif id:
+        div_string=f'<div id ="{id}"' 
+        if id.endswith("##"):
+            type="return"  
     else:
         div_string="<div"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        div_string=div_string+attr_string  
     if style:
         div_string=div_string + '  style="'
         style_string=""
@@ -330,12 +422,13 @@ def division_begins(class_name="",style={},text="",type="write"):
         f.write(div_string + ">"+ "\n")
     else:
         return_string=div_string + ">"+ "\n"
+        
     if text:
         if type=="write":
             f.write(text+'\n')
         else:
             return_string=return_string+text+"\n"
-    return_string=return_string + "</div>"
+            return_string=return_string + "</div>"
     return return_string
 
 
@@ -343,16 +436,27 @@ def division_ends():
     f.write("</div>\n")
 
 
-def add_link(link_text,url,style={}):
+def add_link(link_text,url,style={},attr_list=[]):
     starting=f'a href="{url}"'
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        starting=starting+attr_string  
     if style:
         starting=stylizer(starting,style)
     else:
         starting="<" + starting + ">"
-    f.write(f'{starting}{link_text}</a>\n')
+    if link_text.endswith("##"):
+        if link_text[-3]=="\\":
+            f.write(f'{starting}{link_text[:-3]+"##"}</a>\n')
+        else:
+            return f'{starting}{link_text[:-2]}</a>\n'
 
-
-
+    else:
+        f.write(f'{starting}{link_text}</a>\n')
+    
+    
 def unordered_list(*items):
     first="no"
     if type(items[0]) is dict:
@@ -380,14 +484,20 @@ def unordered_list(*items):
         f.write(line)
     f.write('</ul>\n')
 
-def ordered_list(*items):
+def ordered_list(*items,attr_list=[]):
     first="no"
+    start="ol"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if type(items[0]) is dict:
-        styled_stirng=stylizer("ol",items[0])
+        styled_stirng=stylizer(start,items[0])
         f.write(styled_stirng+"\n")
         first="yes"
     else:
-        f.write('<ol>\n')
+        f.write('<'+start+'>\n')
     if first =="yes":
         basket=items[1:]
     else:
@@ -419,12 +529,18 @@ def description_list(items,style={}):
     f.write('</dl>\n')  
 
 
-def table(items_list,style={}):
+def table(items_list,style={},attr_list=[]):
     global file_pointer_position
+    start="table"
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
     if style:
-        start_string=stylizer("table",style)+'\n'
+        start_string=stylizer(start,style)+'\n'
     else:
-        start_string='<table>\n'
+        start_string='<'+start+'>\n'
     f.write(start_string)
     skip=False
     if type(items_list[0]) is tuple:
@@ -560,9 +676,9 @@ class form():
             f.write(f"<label for=\"{id}\">{text}</label>\n")
 
     def input(self,type="",id="",name="",value="",style={},attr_list=[],radio_button_list=[],
-              radio_attribute_list=[],radio_style_list=[],label_attribute_list=[],label_style_list=[],
-              checkbox_list=[],checkbox_attribute_list=[],checkbox_style_list=[],checklabel_attribute_list=[],
-              checklabel_style_list=[]):
+              radio_attribute_list=[],radio_style_list=[],radio_label_attribute_list=[],radio_label_style_list=[],
+              checkbox_list=[],checkbox_attribute_list=[],checkbox_style_list=[],check_label_attribute_list=[],
+              check_label_style_list=[]):
         if type=="text":
             start=f"input type=\"text\" id=\"{id}\" name=\"{name}\" value=\"{value}\""
             if attr_list:
@@ -577,7 +693,7 @@ class form():
             else:    
                 f.write("<"+start+">\n")
 
-        if type=="submit":
+        elif type=="submit":
             start=f"input type=\"submit\" value=\"{value}\""
             if attr_list:
                 attr_string=""
@@ -593,7 +709,7 @@ class form():
         #To apply style to individual radio input entries and labels,use nested lists and dictionaries
         #with attribute list and style dictionary at the exact position or number of the radio or label to be styled
         #and empty lists and dictionaries at every other position
-        if type=="radio":
+        elif type=="radio":
             for id,label in enumerate(radio_button_list):
                 start=f'input type="radio" id="{label.rstrip("#")}{id}" name="{"radio"+radio_button_list[0].rstrip("#")}" value="{label.rstrip("#")}"'
                 if radio_attribute_list:
@@ -609,13 +725,13 @@ class form():
                     f.write("<"+start+">\n")
 
                 start=f'label for="{label.rstrip("#")}{id}"'
-                if label_attribute_list:
+                if radio_label_attribute_list:
                     label_attr_string=""
-                    for attr in label_attribute_list:
+                    for attr in radio_label_attribute_list:
                         label_attr_string=label_attr_string + ' ' + f"{attr}"
                     start=start+label_attr_string  
-                if len(label_style_list)>=1:
-                    styled_string=stylizer(start,label_style_list[id])
+                if len(radio_label_style_list)>=1:
+                    styled_string=stylizer(start,radio_label_style_list[id])
                     # use ## to add a single line break after a label
                     if label.endswith("##"):
                         match=re.search('#*$',label)
@@ -633,7 +749,7 @@ class form():
                     else:
                         f.write("<" + start +f">{label}</label>\n")
 
-        if type=="checkbox":
+        elif type=="checkbox":
             for id,label in enumerate(checkbox_list):
                 start=f'input type="checkbox" id="{label.rstrip("#")}{id}" name="{"check"+checkbox_list[0].rstrip("#")}" value="{label.rstrip("#")}"'
                 if checkbox_attribute_list:
@@ -649,13 +765,13 @@ class form():
                     f.write("<"+start+">\n")
 
                 start=f'label for="{label.rstrip("#")}{id}"'
-                if checklabel_attribute_list:
+                if check_label_attribute_list:
                     label_attr_string=""
-                    for attr in label_attribute_list:
+                    for attr in check_label_attribute_list:
                         label_attr_string=label_attr_string + ' ' + f"{attr}"
                     start=start+label_attr_string  
-                if len(checklabel_style_list)>=1:
-                    styled_string=stylizer(start,label_style_list[id])
+                if len(check_label_style_list)>=1:
+                    styled_string=stylizer(start,check_label_style_list[id])
                     # use ## to add a single line break after a label
                     if label.endswith("##"):
                         match=re.search('#*$',label)
@@ -674,7 +790,7 @@ class form():
                         f.write("<" + start +f">{label}</label>\n")
         
         else:
-            start=f"input type=\"{type}\" value=\"{value}\""
+            start=f"input type=\"{type}\" id=\"{id}\" value=\"{value}\""
             if attr_list:
                 attr_string=""
                 for attr in attr_list:
@@ -687,9 +803,9 @@ class form():
                 f.write("<"+start+">\n")
 
     def fieldset(self,legend="",style={},attr_list=[],radio_button_list=[],
-              radio_attribute_list=[],radio_style_list=[],label_attribute_list=[],label_style_list=[],
-              checkbox_list=[],checkbox_attribute_list=[],checkbox_style_list=[],checklabel_attribute_list=[],
-              checklabel_style_list=[]):
+              radio_attribute_list=[],radio_style_list=[],radio_label_attribute_list=[],radio_label_style_list=[],
+              checkbox_list=[],checkbox_attribute_list=[],checkbox_style_list=[],check_label_attribute_list=[],
+              check_label_style_list=[]):
         
         start="fieldset"
         if attr_list:
@@ -722,13 +838,13 @@ class form():
                         f.write("<"+start+">\n")
 
                     start=f'label for="{label.rstrip("#")}{id}"'
-                    if label_attribute_list:
+                    if radio_label_attribute_list:
                         label_attr_string=""
-                        for attr in label_attribute_list:
+                        for attr in radio_label_attribute_list:
                             label_attr_string=label_attr_string + ' ' + f"{attr}"
                         start=start+label_attr_string  
-                    if len(label_style_list)>=1:
-                        styled_string=stylizer(start,label_style_list[id])
+                    if len(radio_label_style_list)>=1:
+                        styled_string=stylizer(start,radio_label_style_list[id])
                         # use ## to add a single line break after a label
                         if label.endswith("##"):
                             match=re.search('#*$',label)
@@ -747,8 +863,8 @@ class form():
                             f.write("<" + start +f">{label}</label>\n")
         elif checkbox_list:
             self.input(type="checkbox",checkbox_list=checkbox_list,checkbox_attribute_list=checkbox_attribute_list,
-                       checkbox_style_list=checkbox_style_list,checklabel_attribute_list=checklabel_attribute_list,
-              checklabel_style_list=checklabel_style_list)
+                       checkbox_style_list=checkbox_style_list,check_label_attribute_list=check_label_attribute_list,
+              check_label_style_list=check_label_style_list)
 
         f.write("</fieldset>\n")
                 
@@ -756,8 +872,8 @@ class form():
         f.write("</form>\n")        
 
 
-def image(source,alternate_text,style={},attr_list=[]):
-    send_to_stylizer=f"img src={source} alt={alternate_text}"
+def image(source,alternate_text="",style={},attr_list=[]):
+    send_to_stylizer=f'img src="{source}" alt="{alternate_text}"'
     if attr_list:
         attr_string=""
         for attr in attr_list:
@@ -767,7 +883,24 @@ def image(source,alternate_text,style={},attr_list=[]):
         starting=stylizer(send_to_stylizer,style)
     else:
         starting="<" + send_to_stylizer
-    f.write(f"{starting}>\n")
+    if source.endswith("##"):
+        if source[-3]=="\\":
+            first=starting.find("src")
+            last=starting.find("\\",first)
+            substituted_string=starting[first:last]
+            replaced_string=starting[first:last+3]
+            starting=starting.replace(replaced_string,substituted_string)
+            f.write(f"{starting}>\n")
+        else:
+            first=starting.find("src")
+            last=starting.find("##",first)
+            substituted_string=starting[first:last]
+            replaced_string=starting[first:last+2]
+            starting=starting.replace(replaced_string,substituted_string)
+            return f"{starting}>\n"
+
+    else:
+        f.write(f"{starting}>\n")
 
 
 def video(source={},style={},attr_list=[],no_video_text=""):
@@ -787,8 +920,36 @@ def video(source={},style={},attr_list=[],no_video_text=""):
     f.write(no_video_text+"\n")
     f.write("</video>")
 
+def button(name_on_button,attr_list=[],style={}):
+    start="button "
+    if attr_list:
+        attr_string=""
+        for attr in attr_list:
+            attr_string=attr_string + ' ' + f"{attr}"
+        start=start+attr_string  
+    if style:
+        styled_string=stylizer(start,style)
+        f.write(f"{styled_string}\n")
+    else:    
+        f.write("<"+start+">\n")
+    f.write(name_on_button+"\n")
+    f.write("</button>\n")
 
+
+def remove_blank_lines_inplace(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()  # Read all lines
+    
+    # Remove blank lines
+    non_empty_lines = [line for line in lines if line.strip()]
+    
+    # Write back to the same file
+    with open(filename, 'w') as file:
+        file.writelines(non_empty_lines)
+
+        
 @atexit.register
 def end():
         f.write(end_string)
         f.close()
+        remove_blank_lines_inplace(html_file_name)

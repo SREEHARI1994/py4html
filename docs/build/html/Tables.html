@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tables &#8212; py4html 0.0.4 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=8c5712d9"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Forms" href="forms.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="tables">
+<h1>Tables<a class="headerlink" href="#tables" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="table">
+<span class="sig-name descname"><span class="pre">table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#table" title="Link to this definition">¶</a></dt>
+<dd><p>Generates an HTML <cite>&lt;table&gt;</cite> element from a list of rows. Supports headers, inline styling, and advanced cell configurations such as <cite>colspan</cite>, <cite>rowspan</cite>, and <cite>common_style</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items_list</strong> (<em>list</em>) – A list of rows. Each row can be:
+- A tuple: treated as a header row using <cite>&lt;th&gt;</cite>
+- A list: treated as normal table rows
+- A dict: contains styling or attributes for the row</p></li>
+<li><p><strong>style</strong> (<em>dict</em>) – Optional dictionary of CSS styles applied to the <cite>&lt;table&gt;</cite> element.</p></li>
+<li><p><strong>attr_list</strong> (<em>list</em><em> of </em><em>str</em>) – Optional list of HTML attributes (as raw strings) applied to the <cite>&lt;table&gt;</cite> tag.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Writes HTML <cite>&lt;table&gt;</cite> code directly to the global file object <cite>f</cite>.</p>
+</dd>
+</dl>
+<p><strong>Row Behavior:</strong></p>
+<ul class="simple">
+<li><p>If the first row is a tuple, it is considered a header and rendered using <cite>&lt;th&gt;</cite>.</p></li>
+<li><p>Rows can have individual styles if passed as dictionaries with keys like <cite>rowspan</cite> or using <cite>stylizer</cite>.</p></li>
+</ul>
+<p><strong>Cell Behavior:</strong></p>
+<ul class="simple">
+<li><p>Each cell can be:</p>
+<ul>
+<li><p>A string: Rendered as <cite>&lt;td&gt;value&lt;/td&gt;</cite></p></li>
+<li><p>A tuple (value,): Rendered as <cite>&lt;th&gt;value&lt;/th&gt;</cite></p></li>
+<li><p>A dictionary with:
+- <code class="docutils literal notranslate"><span class="pre">colspan</span></code>: Specifies how many columns the cell spans.
+- <code class="docutils literal notranslate"><span class="pre">rowspan</span></code>: Specifies how many rows the cell spans.
+- <code class="docutils literal notranslate"><span class="pre">common_style</span></code>: A style dictionary processed in a separate thread using <code class="docutils literal notranslate"><span class="pre">edit_file_4style</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>Simple Table with Header</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="s2">&quot;City&quot;</span><span class="p">),</span>
+    <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="s2">&quot;25&quot;</span><span class="p">,</span> <span class="s2">&quot;Mumbai&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="s2">&quot;30&quot;</span><span class="p">,</span> <span class="s2">&quot;Delhi&quot;</span><span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Table with `colspan` and `rowspan`</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Details&quot;</span><span class="p">),</span>
+    <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">}}],</span>
+    <span class="p">[</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;rowspan&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}],</span>
+    <span class="p">[</span><span class="s2">&quot;Bob Again&quot;</span><span class="p">,</span> <span class="s2">&quot;Still Bob&quot;</span><span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Styled Table with Attributes</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Fruit&quot;</span><span class="p">,</span> <span class="s2">&quot;Color&quot;</span><span class="p">),</span>
+        <span class="p">[</span><span class="s2">&quot;Apple&quot;</span><span class="p">,</span> <span class="s2">&quot;Red&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Banana&quot;</span><span class="p">,</span> <span class="s2">&quot;Yellow&quot;</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;border&quot;</span><span class="p">:</span> <span class="s2">&quot;2px solid black&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;100%&quot;</span><span class="p">},</span>
+    <span class="n">attr_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;border=1&quot;</span><span class="p">,</span> <span class="s2">&quot;align=center&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><cite>common_style</cite> triggers a call to <code class="docutils literal notranslate"><span class="pre">edit_file_4style</span></code> in a separate thread.</p></li>
+<li><p>Do not pass only <cite>colspan</cite>/<cite>rowspan</cite> without some meaningful content or styling — it may render as an empty cell.</p></li>
+<li><p>Ensure that cell types are consistent to maintain proper table formatting.</p></li>
+</ul>
+</section>
+<section id="related">
+<h2>Related<a class="headerlink" href="#related" title="Link to this heading">¶</a></h2>
+<p>For more information on HTML tables, see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.w3schools.com/html/html_tables.asp">https://www.w3schools.com/html/html_tables.asp</a></p></li>
+</ul>
+</section>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py4html</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Table of Content</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to Install py4html</a></li>
+<li class="toctree-l1"><a class="reference internal" href="starting.html">Some common questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example.html">Quick Start:Usage example- Recreating a popular website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UsageInstructions.html">Instructions:Must Read</a></li>
+<li class="toctree-l1"><a class="reference internal" href="headings.html">Headings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lists.html">Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Forms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table"><code class="docutils literal notranslate"><span class="pre">table()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="forms.html" title="previous chapter">Forms</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, sree.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/Tables.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
