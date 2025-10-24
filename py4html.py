@@ -393,7 +393,7 @@ def line_break():
     f.write("<br>\n")
 
    
-def division_begins(style={},text="",id="",class_name="",attr_list=[]):
+def division_begins(class_name="",style={},text="",id="",attr_list=[]):
     div_string=""
     type="write"
     return_string=""
