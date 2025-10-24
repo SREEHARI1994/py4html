@@ -5,6 +5,9 @@ import os
 import inspect
 import re
 
+if __name__=="__main__":
+    exit(0)
+    
 file_pointer_position=0
 html_file_name=""
 
