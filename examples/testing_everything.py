@@ -1,4 +1,4 @@
-from py4htmlpc import *
+from py4html import *
 
 # In this file I am simple testing out all available feautures
 title("sreeharis acrobatics")
@@ -80,8 +80,9 @@ country_table_without_headings=[ ["first","second","third"],
                                  ["New Delhi","Tokyo","Berlin"]]
 
 #nested table with a division for a table cell
-division_in_cell=division_begins("inside_cell##",{"background-color":"red","width":"100px","height":"50px"},"sreehari loves python")
 
+division_in_cell=division_begins(class_name="inside_cell##",style={"background-color":"red","width":"100px","height":"50px"},text="sreehari loves python")
+#print(division_in_cell)
 nested_table=[ ["first","second","third"],
                ["India",
                 division_in_cell,{"width":"100px","height":"50px"},
@@ -287,3 +288,7 @@ biggest_heading("Lets play a beautiful video")
 line_break()
 video(source={"ReelBe.mp4":"video/mp4"},no_video_text="No video to show",
       attr_list=['width="320"','height="240"',"controls"])
+
+line_break()
+line_break()
+image("Trackmania.jpg")
